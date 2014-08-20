@@ -4,8 +4,30 @@ import time
 class IntegratedTones:
     LSB = 87
     
-    class Piano:
+    class piano:
         BANK_NUMBER = 64
+
+        StConcert1 = 0
+        StConcert2 = 1
+        DynamicPno1 = 2
+        DynamicPno2 = 3
+        StConcert3 = 4
+        BrightPiano1 = 5
+        BrightPiano2 = 6
+        MellowPiano1 = 7
+        MellowPiano2 = 8
+        BandPiano1 = 9
+        BandPiano2 = 10
+        HonkyTonk = 11
+        RockPiano1 = 12
+        RockPiano2 = 13
+        SoftPiano = 14
+        ForteGrand1 = 15
+        ForteGrand2 = 16
+        Piano1 = 17
+        Piano2 = 18
+
+    Piano = piano
 
     EP = 65
     CLAV = 66
@@ -32,23 +54,47 @@ class SRXATones:
     BANK_3 = 13
     BANK_4 = 14
 
+class Part:
 
-U1_indicate_bank_change = [0xB0, 0x00, IntegratedTones.LSB]
-U1_set_bank_piano = [0xB0, 0x20, IntegratedTones.Piano.BANK_NUMBER]
-U1_set_bank_ep = [0xB0, 0x20, IntegratedTones.EP]
-U1_set_voice = [0xC0, 00]
+    LSB_SET_BANK_SOURCE = 0x00
+    LSB_SET_BANK_FAMILY = 0x20
 
-U1_note_on = [0x90, 60, 112]
-U1_note_off = [0x80, 60, 0]
+    class Upper1:
+        MSB_BANK_CHANGE = 0xB0
+        MSB_SET_VOICE = 0xC0
+        MSB_NOTE_ON = 0x90
+        MSB_NOTE_OFF = 0x80
+        
+    class Upper2:
+        MSB_BANK_CHANGE = 0xB1
+        MSB_SET_VOICE = 0xC1
+        MSB_NOTE_ON = 0x91
+        MSB_NOTE_OFF = 0x81
+
+    class Lower:
+        MSB_BANK_CHANGE = 0xB2
+        MSB_SET_VOICE = 0xC2
+        MSB_NOTE_ON = 0x92
+        MSB_NOTE_OFF = 0x82
+
+MIDDLE_C = 60
+
+U1_indicate_bank_change = [Part.Upper1.MSB_BANK_CHANGE, Part.LSB_SET_BANK_SOURCE, IntegratedTones.LSB]
+U1_set_bank_piano = [Part.Upper1.MSB_BANK_CHANGE, Part.LSB_SET_BANK_FAMILY, IntegratedTones.Piano.BANK_NUMBER]
+U1_set_bank_ep = [Part.Upper1.MSB_BANK_CHANGE, Part.LSB_SET_BANK_FAMILY, IntegratedTones.EP]
+U1_set_voice = [Part.Upper1.MSB_SET_VOICE, IntegratedTones.Piano.HonkyTonk]
+
+U1_note_on = [Part.Upper1.MSB_NOTE_ON, MIDDLE_C, 112]
+U1_note_off = [Part.Upper1.MSB_NOTE_OFF, MIDDLE_C, 0]
 
 
-U2_indicate_bank_change = [0xB1, 0x00, SRXATones.LSB]
-U2_set_bank_piano = [0xB1, 0x20, SRXATones.BANK_1]
-U2_set_bank_ep = [0xB1, 0x20, SRXBTones.BANK_2]
-U2_set_voice = [0xC1, 00]
+U2_indicate_bank_change = [Part.Upper2.MSB_BANK_CHANGE, Part.LSB_SET_BANK_SOURCE, SRXATones.LSB]
+U2_set_bank_piano = [Part.Upper2.MSB_BANK_CHANGE, Part.LSB_SET_BANK_FAMILY, SRXATones.BANK_1]
+U2_set_bank_ep = [Part.Upper2.MSB_BANK_CHANGE, Part.LSB_SET_BANK_FAMILY, SRXBTones.BANK_2]
+U2_set_voice = [Part.Upper2.MSB_SET_VOICE, 00]
 
-U2_note_on = [0x91, 60, 112]
-U2_note_off = [0x81, 60, 0]
+U2_note_on = [Part.Upper2.MSB_NOTE_ON, MIDDLE_C, 112]
+U2_note_off = [Part.Upper2.MSB_NOTE_OFF, MIDDLE_C, 0]
 
 out = rtmidi.MidiOut()
 ports = out.get_ports()
