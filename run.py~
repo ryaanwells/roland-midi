@@ -1,0 +1,7 @@
+import rtmidi
+
+out = rtmidi.midiout()
+ports = out.get_ports()
+
+for p in ports:
+    print p
