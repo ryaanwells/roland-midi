@@ -1,42 +1,9 @@
+from patches.integrated_tones import IntegratedTones
+
 import rtmidi
 import time
 
-class IntegratedTones:
-    LSB = 87
-    
-    class piano:
-        BANK_NUMBER = 64
 
-        StConcert1 = 0
-        StConcert2 = 1
-        DynamicPno1 = 2
-        DynamicPno2 = 3
-        StConcert3 = 4
-        BrightPiano1 = 5
-        BrightPiano2 = 6
-        MellowPiano1 = 7
-        MellowPiano2 = 8
-        BandPiano1 = 9
-        BandPiano2 = 10
-        HonkyTonk = 11
-        RockPiano1 = 12
-        RockPiano2 = 13
-        SoftPiano = 14
-        ForteGrand1 = 15
-        ForteGrand2 = 16
-        Piano1 = 17
-        Piano2 = 18
-
-    Piano = piano
-
-    EP = 65
-    CLAV = 66
-    ORGAN = 67
-    STRINGS = 68
-    PAD = 69
-    GUITAR = 70
-    BRASS = 71
-    SYNTH = 72
 
 class SRXBTones:
     LSB = 93
@@ -81,7 +48,7 @@ MIDDLE_C = 60
 
 U1_indicate_bank_change = [Part.Upper1.MSB_BANK_CHANGE, Part.LSB_SET_BANK_SOURCE, IntegratedTones.LSB]
 U1_set_bank_piano = [Part.Upper1.MSB_BANK_CHANGE, Part.LSB_SET_BANK_FAMILY, IntegratedTones.Piano.BANK_NUMBER]
-U1_set_bank_ep = [Part.Upper1.MSB_BANK_CHANGE, Part.LSB_SET_BANK_FAMILY, IntegratedTones.EP]
+U1_set_bank_ep = [Part.Upper1.MSB_BANK_CHANGE, Part.LSB_SET_BANK_FAMILY, IntegratedTones.EP.BANK_NUMBER]
 U1_set_voice = [Part.Upper1.MSB_SET_VOICE, IntegratedTones.Piano.HonkyTonk]
 
 U1_note_on = [Part.Upper1.MSB_NOTE_ON, MIDDLE_C, 112]
