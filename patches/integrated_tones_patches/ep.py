@@ -1,23 +1,25 @@
 class EP:
     BANK_NUMBER = 65
 
-    Rhodes1 = 0
-    Rhodes2 = 1
-    StageRhodes = 2
-    Suitcase = 3
-    NYRhodes = 4
-    TremoloRhd = 5
-    PhaserDyno = 6
-    Rholitzer = 7
-    HitRhodes = 8
-    Wurly = 9
-    HardWurly = 10
-    s60sEPiano = 11
-    SAEP1 = 12
-    SAEP2 = 13
-    D50EPiano = 14
-    FMEPiano1 = 15
-    FMEPiano2 = 16
-    VibraRhodes = 17
-    EGrand1 = 18
-    EGrand2 = 19
+    voices = [
+        {"name": "Rhodes1", "voice_number_number": 0},
+        {"name": "Rhodes2", "voice_number": 1},
+        {"name": "StageRhodes", "voice_number": 2},
+        {"name": "Suitcase", "voice_number": 3},
+        {"name": "NYRhodes", "voice_number": 4},
+        {"name": "TremoloRhd", "voice_number": 5},
+        {"name": "PhaserDyno", "voice_number": 6},
+        {"name": "Rholitzer", "voice_number": 7},
+        {"name": "HitRhodes", "voice_number": 8},
+        {"name": "Wurly", "voice_number": 9},
+        {"name": "HardWurly", "voice_number": 10},
+        {"name": "s60sEPiano", "voice_number": 11},
+        {"name": "SAEP1", "voice_number": 12},
+        {"name": "SAEP2", "voice_number": 13},
+        {"name": "D50EPiano", "voice_number": 14},
+        {"name": "FMEPiano1", "voice_number": 15},
+        {"name": "FMEPiano2", "voice_number": 16},
+        {"name": "VibraRhodes", "voice_number": 17},
+        {"name": "EGrand1", "voice_number": 18},
+        {"name": "EGrand2", "voice_number": 19}
+    ]

@@ -1,2 +1,35 @@
 class Organ:
     BANK_NUMBER = 67
+
+    voices = [
+        {"name": "Mellow Bars", "voice_number": 1},
+        {"name": "Click Organ", "voice_number": 2},
+        {"name": "Full Stops", "voice_number": 3},
+        {"name": "Ballad B", "voice_number": 4},
+        {"name": "Gospel Spin", "voice_number": 5},
+        {"name": "Full Jazz", "voice_number": 6},
+        {"name": "Perky B", "voice_number": 7},
+        {"name": "British B", "voice_number": 8},
+        {"name": "Rock Organ 1", "voice_number": 9},
+        {"name": "Rock Organ 2", "voice_number": 10},
+        {"name": "Rock Organ 3", "voice_number": 11},
+        {"name": "The Big Spin", "voice_number": 12},
+        {"name": "Rocker Spin", "voice_number": 13},
+        {"name": "Purple Spin", "voice_number": 14},
+        {"name": "96 Years", "voice_number": 15},
+        {"name": "Surf's Up!", "voice_number": 16},
+        {"name": "D-50 Organ", "voice_number": 17},
+        {"name": "Cathedral", "voice_number": 18},
+        {"name": "Nason Flute", "voice_number": 19},
+        {"name": "Theater Org", "voice_number": 20},
+        {"name": "Tone Wheel 1", "voice_number": 21},
+        {"name": "Tone Wheel 2", "voice_number": 22},
+        {"name": "Tone Wheel 3", "voice_number": 23},
+        {"name": "Tone Wheel 4", "voice_number": 24},
+        {"name": "Tone Wheel 5", "voice_number": 25},
+        {"name": "Tone Wheel 6", "voice_number": 26},
+        {"name": "Tone Wheel 7", "voice_number": 27},
+        {"name": "Tone Wheel 8", "voice_number": 28},
+        {"name": "Tone Wheel 9", "voice_number": 29},
+        {"name": "Tone Wheel 10", "voice_number": 30}
+    ]

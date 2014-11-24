@@ -13,16 +13,18 @@ from patches.integrated_tones_patches.synth import Synth
 
 class IntegratedTones(IterMixin):
     LSB = 87
-    
-    groups = {"PIANO": Piano,
-              "EP": EP,
-              "CLAV": Clav,
-              "ORGAN": Organ,
-              "STRINGS": Strings,
-              "PAD": Pad,
-              "GUITAR": Guitar,
-              "BRASS": Brass,
-              "SYNTH": Synth}
+
+    groups = [
+        {"name": "PIANO", "class": Piano},
+        {"name": "EP", "class": EP},
+        {"name": "CLAV", "class": Clav},
+        {"name": "ORGAN", "class": Organ},
+        {"name": "STRINGS", "class": Strings},
+        {"name": "PAD", "class": Pad},
+        {"name": "GUITAR", "class": Guitar},
+        {"name": "BRASS", "class": Brass},
+        {"name": "SYNTH", "class": Synth}
+    ]
 
     @property
     def items(self):
