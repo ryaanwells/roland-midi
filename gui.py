@@ -1,5 +1,6 @@
 from Tkinter import *
 from patches.integrated_tones import IntegratedTones
+from voice_stack.patch_change import PatchChange
 from voice_stack.patch_entry import PatchEntry
 
 
@@ -54,8 +55,9 @@ class App:
         else:
             self.current_index += 1
         new_display = self.voice_list[self.current_index]
-        self.display_class_stringvar.set(new_display.patch_class.__name__)
-        self.display_voice_stringvar.set(new_display.patch_entry["name"])
+        self.display_class_stringvar.set(new_display.upper_1.patch_class.__name__)
+        self.display_voice_stringvar.set(new_display.upper_1.patch_entry["name"])
+        print self.integrated_tones.get_change_info_for_patch_entry(new_display)
         print event.type
         print "hello"
 
@@ -76,10 +78,11 @@ class App:
         self.chosen_voice = self.chosen_bank.voices[selection]
 
     def _pick_voice(self):
-        MSB = self.chosen_bank.BANK_NUMBER
-        print MSB
         print self.chosen_voice["voice_number"]
-        self.voice_list.append(PatchEntry(self.chosen_bank, self.chosen_voice))
+        patch_entry = PatchEntry(self.chosen_bank, self.chosen_voice)
+        patch_change = PatchChange(patch_entry)
+
+        self.voice_list.append(patch_change)
 
     @staticmethod
     def _get_listbox_selection_from_event(event):
