@@ -1,5 +1,6 @@
 from Tkinter import *
 from patches.integrated_tones import IntegratedTones
+from voice_stack.patch_entry import PatchEntry
 
 
 class App:
@@ -9,6 +10,22 @@ class App:
         self.current = None
         frame = Frame(master)
         frame.pack()
+
+        # Voice stack info
+        self.chosen_bank = None
+        self.chosen_voice = None
+        self.voice_list = []
+        self.current_index = -1
+
+        # Voice Display Info
+        self.display_holder = LabelFrame(frame, padx=5, pady=5)
+        self.display_holder.pack(side=RIGHT)
+        self.display_class_stringvar = StringVar()
+        self.display_voice_stringvar = StringVar()
+        self.display_class_label = Label(self.display_holder, textvariable=self.display_class_stringvar)
+        self.display_voice_label = Label(self.display_holder, textvariable=self.display_voice_stringvar)
+        self.display_class_label.pack(side=LEFT)
+        self.display_voice_label.pack(side=LEFT)
 
         self.button = Button(frame, text="QUIT", fg="red", command=frame.quit)
         self.button.pack(side=LEFT)
@@ -20,11 +37,27 @@ class App:
         self.voice_select.pack(side=LEFT)
 
         self.integrated_tones = IntegratedTones()
-        self.chosen_bank = None
         self._update_listbox(self.main_bank_select, self.integrated_tones.groups)
 
         self.main_bank_select.bind("<<ListboxSelect>>", self._update_voice_listbox)
         self.voice_select.bind("<<ListboxSelect>>", self._choose_voice)
+
+        self.chose_button = Button(frame, text="Add", bg="black", fg="blue", command=self._pick_voice)
+        self.chose_button.pack(side=LEFT)
+
+    def hello(self, event):
+        if len(self.voice_list) == 0:
+            return
+
+        if self.current_index == len(self.voice_list) - 1:
+            self.current_index = 0
+        else:
+            self.current_index += 1
+        new_display = self.voice_list[self.current_index]
+        self.display_class_stringvar.set(new_display.patch_class.__name__)
+        self.display_voice_stringvar.set(new_display.patch_entry["name"])
+        print event.type
+        print "hello"
 
     def poll_main_selection(self):
         now = self.main_bank_select.curselection()
@@ -40,6 +73,13 @@ class App:
     def _choose_voice(self, event):
         selection = self._get_listbox_selection_from_event(event)
         print self.chosen_bank.voices[selection]
+        self.chosen_voice = self.chosen_bank.voices[selection]
+
+    def _pick_voice(self):
+        MSB = self.chosen_bank.BANK_NUMBER
+        print MSB
+        print self.chosen_voice["voice_number"]
+        self.voice_list.append(PatchEntry(self.chosen_bank, self.chosen_voice))
 
     @staticmethod
     def _get_listbox_selection_from_event(event):
@@ -55,5 +95,6 @@ class App:
 root = Tk()
 
 app = App(root)
+root.bind("<space>", app.hello)
 
 root.mainloop()
