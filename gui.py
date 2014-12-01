@@ -3,14 +3,17 @@ from patches.integrated_tones import IntegratedTones
 from voice_stack.patch_change import PatchChange
 from voice_stack.patch_entry import PatchEntry
 from tools.load_save import LoadSave
+from tools.midi_controller import MidiController
 
 
 class App:
 
     def __init__(self, master):
         self.current = None
-        frame = Frame(master)
-        frame.pack()
+        self.frame = Frame(master)
+        self.frame.pack()
+
+        self.midi_controller = MidiController()
 
         # Voice stack info
         self.chosen_bank = None
@@ -19,24 +22,26 @@ class App:
         self.current_index = -1
 
         # Voice Display Info
-        self.display_holder = LabelFrame(frame, padx=5, pady=5)
+        self.display_holder = LabelFrame(self.frame, padx=5, pady=5)
         self.display_holder.pack(side=RIGHT)
         self.display_voice_stringvar = StringVar()
         self.display_voice_label = Label(self.display_holder, textvariable=self.display_voice_stringvar)
         self.display_voice_label.pack(side=LEFT)
 
-        self.button = Button(frame, text="QUIT", fg="red", command=frame.quit)
+        self.button = Button(self.frame, text="QUIT", fg="red", command=self._exit)
         self.button.pack(side=LEFT)
 
-        self.main_bank_select = Listbox(frame, exportselection=0, width=8)
+        self.main_bank_select = Listbox(self.frame, exportselection=0, width=8)
         self.main_bank_select.pack(side=LEFT)
 
-        self.voice_select = Listbox(frame, exportselection=0, width=12, height=10)
+        self.voice_select = Listbox(self.frame, exportselection=0, width=12, height=10)
         self.voice_select.pack(side=LEFT)
 
-        button_frame = Frame(frame)
+        button_frame = Frame(self.frame)
         button_frame.pack(side=LEFT)
 
+        self.name_entry = Entry(button_frame)
+        self.name_entry.pack(side=TOP)
         chose_append_button = Button(button_frame, text="At End", bg="black", fg="blue",
                                      command=lambda: self._pick_voice(append=True))
         chose_append_button.pack(side=TOP)
@@ -48,13 +53,12 @@ class App:
         chose_before_button.pack(side=TOP)
         spacer = Frame(button_frame, height=2)
         spacer.pack(side=TOP, pady=5)
-
-        self.order_listbox = Listbox(frame, exportselection=0)
-        self.order_listbox.pack(side=LEFT)
         set_cursor_button = Button(button_frame, text="Set At",
                                    command=lambda: self._set_current_index(int(self.order_listbox.curselection()[0])))
         set_cursor_button.pack()
 
+        self.order_listbox = Listbox(self.frame, exportselection=0, width=30)
+        self.order_listbox.pack(side=LEFT)
         self.integrated_tones = IntegratedTones()
         self._update_listbox(self.main_bank_select, self.integrated_tones.groups)
 
@@ -77,6 +81,7 @@ class App:
         self.order_listbox.selection_set(self.current_index)
         self.order_listbox.see(self.current_index + 3)
         print self.integrated_tones.get_change_info_for_patch_entry(new_display)
+        self.midi_controller.send_messages(self.integrated_tones.get_change_info_for_patch_entry(new_display))
 
     def _update_voice_listbox(self, event):
         selection = self._get_listbox_selection_from_event(event)
@@ -89,8 +94,9 @@ class App:
 
     def _pick_voice(self, append=False, after=False):
         if self.chosen_voice:
+            name = self.name_entry.get()
             patch_entry = PatchEntry(self.chosen_bank, self.chosen_voice)
-            patch_change = PatchChange(patch_entry)
+            patch_change = PatchChange(name, patch_entry)
             current_index_selection = map(int, self.order_listbox.curselection())
 
             if append or len(current_index_selection) == 0:
@@ -113,6 +119,10 @@ class App:
 
     def _set_current_index(self, index):
         self.current_index = index
+
+    def _exit(self):
+        self.midi_controller.close()
+        self.frame.quit()
 
     @staticmethod
     def _get_listbox_selection_from_event(event):

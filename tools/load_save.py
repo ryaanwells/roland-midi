@@ -20,11 +20,12 @@ class LoadSave:
         print loaded
 
         for change in loaded:
+            name = change["name"]
             upper_1 = PatchEntry(patch_class=IntegratedTones.get_class_by_name(change["upper_1"]["patch_class"]),
                                  patch_entry=change["upper_1"]["patch_entry"])
             print upper_1.patch_entry
             print upper_1.patch_class
-            patch_change = PatchChange(upper_1)
+            patch_change = PatchChange(name, upper_1)
             all_changes.append(patch_change)
 
         return all_changes

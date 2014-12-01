@@ -1,5 +1,3 @@
-from tools.iter_mixin import IterMixin
-
 from patches.integrated_tones_patches.piano import Piano
 from patches.integrated_tones_patches.ep import EP
 from patches.integrated_tones_patches.clav import Clav
@@ -11,7 +9,7 @@ from patches.integrated_tones_patches.brass import Brass
 from patches.integrated_tones_patches.synth import Synth
 
 
-class IntegratedTones(IterMixin):
+class IntegratedTones:
     MSB_BANK_CHANGE_UPPER_1 = 0xB0
     MSB_BANK_CHANGE_UPPER_2 = 0xB1
     MSB_BANK_CHANGE_LOWER = 0xB2
