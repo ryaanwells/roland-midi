@@ -42,6 +42,14 @@ class IntegratedTones(IterMixin):
         print self.__dict__
         return self.__dict__
 
+    @staticmethod
+    def get_class_by_name(name):
+        name = name.upper()
+        for group in IntegratedTones.groups:
+            if group["name"] == name:
+                return group["class"]
+        return None
+
     def get_change_info_for_patch_entry(self, patch_entry):
         change_info = []
         if patch_entry.upper_1:
